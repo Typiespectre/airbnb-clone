@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 django = "==2.2.17"
+pillow = {path = "/Users/ckgun/Desktop/Pillow-8.0.1-cp39-cp39-macosx_11_0_x86_64.whl"}
 
 [dev-packages]
 flake8 = "*"
