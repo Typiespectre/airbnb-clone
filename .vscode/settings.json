@@ -8,5 +8,9 @@
         "--max-line-length=100"
     ],
     "editor.formatOnSave": true,
-    "python.linting.lintOnSave": true
+    "python.linting.lintOnSave": true,
+    "[python]": {
+        "editor.formatOnPaste": false,
+        "editor.formatOnSaveMode": "file",
+    }
 }
