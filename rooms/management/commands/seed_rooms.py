@@ -1,6 +1,7 @@
 import random
 
 from django.core.management.base import BaseCommand
+from django.contrib.admin.utils import flatten
 from django_seed import Seed
 from rooms import models as room_models
 from users import models as user_models
@@ -37,5 +38,32 @@ class Command(BaseCommand):
                 "guests": lambda x: random.randint(1, 20),
             },
         )
-        seeder.execute()
+        created = seeder.execute()
+        cleaned = flatten(list(created.values()))
+        amenities = room_models.Amenity.objects.all()
+        facilities = room_models.Facility.objects.all()
+        rules = room_models.HouseRule.objects.all()
+        # pk = primary key ([14])
+        for pk in cleaned:
+            room = room_models.Room.objects.get(pk=pk)
+            # Add Foreign Key field
+            for i in range(3, random.randint(10, 17)):
+                room_models.Photo.objects.create(
+                    caption=seeder.faker.sentence(),
+                    file=f"room_photos/{random.randint(1,31)}.webp",
+                    room=room,
+                )
+            # Add ManytoMany field
+            for a in amenities:
+                magic_number = random.randint(0, 15)
+                if magic_number % 2 == 0:
+                    room.amenities.add(a)
+            for f in facilities:
+                magic_number = random.randint(0, 15)
+                if magic_number % 2 == 0:
+                    room.facilities.add(f)
+            for r in rules:
+                magic_number = random.randint(0, 15)
+                if magic_number % 2 == 0:
+                    room.house_rules.add(r)
         self.stdout.write(self.style.SUCCESS(f"{number} rooms created!"))

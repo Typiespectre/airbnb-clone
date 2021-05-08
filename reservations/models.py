@@ -18,7 +18,8 @@ class Reservation(core_models.TimeStampModel):
     )
 
     status = models.CharField(
-        max_length=12, choices=STATUS_CHOICES, default=STATUS_PENDING
+        max_length=12,
+        choices=STATUS_CHOICES,
     )
 
     guest = models.ForeignKey("users.User", on_delete=models.CASCADE)
@@ -31,7 +32,7 @@ class Reservation(core_models.TimeStampModel):
 
     def in_progress(self):
         now = timezone.now().date()
-        return now >= self.check_in and now < self.check_out
+        return now >= self.check_in and now <= self.check_out
 
     in_progress.boolean = True
 
