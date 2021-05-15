@@ -12,5 +12,8 @@
     "[python]": {
         "editor.formatOnPaste": false,
         "editor.formatOnSaveMode": "file",
+    },
+    "emmet.includeLanguages": {
+        "django-html": "html"
     }
 }
